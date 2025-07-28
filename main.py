@@ -6,7 +6,7 @@ import io
 import sys
 
 def load_env_file():
-    """从 .env 文件加载环境变量"""
+    """Load environment variables from .env file"""
     env_path = os.path.join(os.path.dirname(__file__), '.env')
     if os.path.exists(env_path):
         with open(env_path, 'r', encoding='utf-8') as f:
@@ -16,30 +16,30 @@ def load_env_file():
                     key, value = line.split('=', 1)
                     os.environ[key.strip()] = value.strip()
 
-# 加载 .env 文件
+# Load .env file
 load_env_file()
 
-# 配置信息
+# Configuration
 asset_id = int(os.getenv('CESIUM_ASSET_ID', '3443919'))
 
-# 从环境变量获取 token
+# Get token from environment variables
 ion_token = os.getenv('CESIUM_ION_TOKEN')
 
 if not ion_token or ion_token == 'your_cesium_ion_token_here':
-    print("错误：未找到有效的 Cesium Ion token")
-    print("请按以下步骤设置：")
-    print("1. 编辑 .env 文件")
-    print("2. 将 'your_cesium_ion_token_here' 替换为您的真实 token")
-    print("3. 或者设置环境变量 CESIUM_ION_TOKEN")
-    print("\n如何获取 token：")
-    print("- 访问 https://cesium.com/ion/")
-    print("- 登录您的账户")
-    print("- 转到 'Access Tokens' 页面")
-    print("- 创建新 token 或复制现有 token")
+    print("Error: No valid Cesium Ion token found")
+    print("Please follow these steps:")
+    print("1. Edit the .env file")
+    print("2. Replace 'your_cesium_ion_token_here' with your actual token")
+    print("3. Or set the CESIUM_ION_TOKEN environment variable")
+    print("\nHow to get a token:")
+    print("- Visit https://cesium.com/ion/")
+    print("- Log into your account")
+    print("- Go to 'Access Tokens' page")
+    print("- Create a new token or copy existing token")
     sys.exit(1)
 
-print(f"使用 Asset ID: {asset_id}")
-print(f"Token (前10个字符): {ion_token[:10]}...")
+print(f"Using Asset ID: {asset_id}")
+print(f"Token (first 10 chars): {ion_token[:10]}...")
 
 base_url = f"https://assets.ion.cesium.com/{asset_id}/"
 
@@ -60,18 +60,18 @@ def download_tileset():
         print(f"HTTP Error {e.code}: {e.reason}")
         print(f"URL: {e.url}")
         if e.code == 401:
-            print("认证失败！请检查您的 Cesium Ion token 是否有效。")
-            print("可能的原因：")
-            print("1. Token 已过期")
-            print("2. Token 无效或格式错误")
-            print("3. 没有访问此资源的权限")
+            print("Authentication failed! Please check if your Cesium Ion token is valid.")
+            print("Possible reasons:")
+            print("1. Token has expired")
+            print("2. Token is invalid or malformed")
+            print("3. No permission to access this resource")
         elif e.code == 403:
-            print("权限被拒绝！您的 token 没有访问此资源的权限。")
+            print("Permission denied! Your token doesn't have access to this resource.")
         elif e.code == 404:
-            print("资源未找到！请检查 asset_id 是否正确。")
+            print("Resource not found! Please check if the asset_id is correct.")
         raise
     except Exception as e:
-        print(f"下载失败: {e}")
+        print(f"Download failed: {e}")
         raise
 
 def download_files(node, path=""):
