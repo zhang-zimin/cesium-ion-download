@@ -1,0 +1,23 @@
+# 环境变量文件 - 包含敏感信息，不应提交到版本控制
+.env
+
+# Python 缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# 下载的文件
+downloads/
+
+# IDE 文件
+.vscode/
+.idea/
+
+# 系统文件
+.DS_Store
+Thumbs.db
